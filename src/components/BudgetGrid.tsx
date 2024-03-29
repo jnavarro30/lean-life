@@ -3,17 +3,16 @@ import { FaMinus, FaPlus } from 'react-icons/fa';
 
 interface RowData {
     label: string;
-    item: string;
+    item: number;
 }
 
 function BudgetGrid(): JSX.Element {
     const [rows, setRows] = useState<RowData[]>([
-        { label: 'Label 1', item: 'Item 1' },
-        { label: 'Label 2', item: 'Item 2' },
-        { label: 'Label 3', item: 'Item 3' },
-        { label: 'Label 4', item: 'Item 4' },
-        { label: 'Label 5', item: 'Item 5' },
-        { label: 'Label 6', item: 'Item 6' }
+        { label: 'Salary', item: 4000 },
+        { label: 'Rent', item: 1000 },
+        { label: 'Car Insurance', item: 100 },
+        { label: 'Utilities', item: 60 },
+        { label: 'Dividends', item: 50 }
     ]);
 
     const labelRefs = useRef<Array<HTMLInputElement | null>>([]);
@@ -34,7 +33,7 @@ function BudgetGrid(): JSX.Element {
         setRows(newRows);
     };
 
-    const handleItemChange = (index: number, value: string) => {
+    const handleItemChange = (index: number, value: number) => {
         const newRows = [...rows];
         newRows[index].item = value;
         setRows(newRows);
@@ -45,7 +44,7 @@ function BudgetGrid(): JSX.Element {
     };
 
     const addRow = () => {
-        const newRows = [...rows, { label: '', item: '' }];
+        const newRows = [...rows, { label: '', item: 0 }];
         setRows(newRows);
     };
 
@@ -68,7 +67,7 @@ function BudgetGrid(): JSX.Element {
                         <input
                             type="text"
                             value={row.item}
-                            onChange={(e) => handleItemChange(index, e.target.value)}
+                            onChange={(e) => handleItemChange(index, Number(e.target.value))}
                             ref={el => itemRefs.current[index] = el}
                             className="input-item outline-none mr-1 w-full"
                             placeholder="Item"
