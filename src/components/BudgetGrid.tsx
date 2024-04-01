@@ -15,6 +15,8 @@ function BudgetGrid(): JSX.Element {
         { label: 'Dividends', item: 50 }
     ]);
 
+    const [showMinusIcons, setShowMinusIcons] = useState<boolean>(false);
+
     const labelRefs = useRef<Array<HTMLInputElement | null>>([]);
     const itemRefs = useRef<Array<HTMLInputElement | null>>([]);
 
@@ -34,6 +36,7 @@ function BudgetGrid(): JSX.Element {
     };
 
     const handleItemChange = (index: number, value: number) => {
+        if (Number.isNaN(value)) return;
         const newRows = [...rows];
         newRows[index].item = value;
         setRows(newRows);
@@ -43,16 +46,26 @@ function BudgetGrid(): JSX.Element {
         setRows(rows => rows.filter((_, idx) => idx !== index));
     };
 
+    const toggleMinusIcons = () => {
+        setShowMinusIcons(prevState => !prevState);
+    };
+
     const addRow = () => {
         const newRows = [...rows, { label: '', item: 0 }];
         setRows(newRows);
     };
 
+    const total = rows.reduce((acc, curr) => acc + curr.item, 0);
+
     return (
-        <div className="w-3/4 border-2 border-black">
+        <div className="w-80 border-2 border-black p-1">
             {rows.map((row, index) => (
                 <div key={index} className="flex items-center py-2 border-b border-gray-300">
-                    <button onClick={() => deleteRow(index)} className="p-2 mr-2"><FaMinus /></button>
+                    <div>
+                        {showMinusIcons && (
+                            <button onClick={() => deleteRow(index)} className="mr-2"><FaMinus /></button>
+                        )}
+                    </div>
                     <div className="flex flex-grow pr-2">
                         <input
                             type="text"
@@ -69,14 +82,18 @@ function BudgetGrid(): JSX.Element {
                             value={row.item}
                             onChange={(e) => handleItemChange(index, Number(e.target.value))}
                             ref={el => itemRefs.current[index] = el}
-                            className="input-item outline-none mr-1 w-full"
+                            className="input-item outline-none mr-1 w-1/2"
                             placeholder="Item"
                         />
                     </div>
                 </div>
             ))}
+            <div className="flex items-center justify-center py-2 border-b border-gray-300">
+                <button onClick={toggleMinusIcons} className="p-2"><FaMinus /></button>
+                <button onClick={addRow} className="p-2 mr-2"><FaPlus /></button>
+            </div>
             <div className="flex justify-center py-2">
-                <button onClick={addRow} className="p-2"><FaPlus /></button>
+                <span>Total: {total}</span>
             </div>
         </div>
     );
