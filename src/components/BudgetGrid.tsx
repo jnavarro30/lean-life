@@ -90,7 +90,9 @@ function BudgetGrid(): JSX.Element {
             ))}
             <div className="flex items-center justify-center py-2 border-b border-gray-300">
                 <button onClick={toggleMinusIcons} className="p-2"><FaMinus /></button>
-                <button onClick={addRow} className="p-2 mr-2"><FaPlus /></button>
+                {rows.length < 10 && (
+                    <button onClick={addRow} className="p-2 mr-2"><FaPlus /></button>
+                )}
             </div>
             <div className="flex justify-center py-2">
                 <span>Total: {total}</span>
