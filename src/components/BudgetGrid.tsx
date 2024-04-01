@@ -3,7 +3,7 @@ import { FaMinus, FaPlus } from 'react-icons/fa';
 
 interface RowData {
     label: string;
-    item: number;
+    item: any;
 }
 
 function BudgetGrid(): JSX.Element {
@@ -51,14 +51,14 @@ function BudgetGrid(): JSX.Element {
     };
 
     const addRow = () => {
-        const newRows = [...rows, { label: '', item: 0 }];
+        const newRows = [...rows, { label: '', item: '' }];
         setRows(newRows);
     };
 
     const total = rows.reduce((acc, curr) => acc + curr.item, 0);
 
     return (
-        <div className="w-80 border-2 border-black p-1">
+        <div className="w-80 border-2 border-black p-1 mb-4">
             {rows.map((row, index) => (
                 <div key={index} className="flex items-center py-2 border-b border-gray-300">
                     <div>
@@ -83,7 +83,7 @@ function BudgetGrid(): JSX.Element {
                             onChange={(e) => handleItemChange(index, Number(e.target.value))}
                             ref={el => itemRefs.current[index] = el}
                             className="input-item outline-none mr-1 w-1/2"
-                            placeholder="Item"
+                            placeholder="Amount"
                         />
                     </div>
                 </div>

@@ -1,24 +1,24 @@
 import React from 'react';
 
-interface FooterLink {
-  title: string;
-  url: string;
+interface FooterProps {
+  onBudgetClick: () => void; // Function to handle Budget link click
+  onMyInventoryClick: () => void; // Function to handle MyInventory link click
 }
 
-function Footer(): JSX.Element {
-  const footerLinks: FooterLink[] = [
-    { title: 'Link 1', url: '#' },
-    { title: 'Link 2', url: '#' },
-    { title: 'Link 3', url: '#' },
+function Footer({ onBudgetClick, onMyInventoryClick }: FooterProps): JSX.Element {
+  const footerLinks: { title: string; onClick: () => void }[] = [
+    { title: 'Budget', onClick: onBudgetClick },
+    { title: 'MyInventory', onClick: onMyInventoryClick },
+    { title: 'Tips', onClick: () => {} }, // Placeholder for Coming Soon link
   ];
 
   return (
     <footer className="w-full bg-gray-200 py-4">
       <div className="container mx-auto flex justify-evenly">
         {footerLinks.map((link, index) => (
-          <a key={index} href={link.url} className="text-gray-800 hover:text-gray-600">
+          <button key={index} onClick={link.onClick} className="text-gray-800 hover:text-gray-600">
             {link.title}
-          </a>
+          </button>
         ))}
       </div>
     </footer>
